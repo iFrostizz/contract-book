@@ -8,4 +8,5 @@ you need root privileges to `/var/lib` in order to use this binary, as it's gonn
 Run `sudo chown -R $USER:$USER /var/lib/` in order to fix this
 
 alias cbook = /../target/debug/contract-book
+
 cbook --help
