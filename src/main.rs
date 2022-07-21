@@ -15,7 +15,7 @@ fn main() {
 
     dbg!(&ret_args);
 
-    let db = store::store_from_args(db, ret_args);
+    let db = store::store_from_args(&mut db, ret_args);
 
     store::write_to_db(db, file);
 

@@ -18,3 +18,4 @@ db.json structure:
 - [ ] Finish the contract-book implementation
 - [ ] Provide an API to find elements easily
 - [ ] Allow database migrations
+- [ ] Write tests (or not ;))
