@@ -4,24 +4,26 @@ mod db;
 
 use clap::Parser;
 use cmd::parser;
-use contract::helper::ContractBook;
-use db::config;
-use std::env;
-use std::fmt;
+// use contract::helper::ContractBook;
+use db::{config, store};
 
 fn main() {
-    let mut db = config::init_db();
+    let (mut db, file) = config::init_db();
 
     let args = parser::Args::parse();
     let ret_args = parser::parse_args(args).expect("failed to parse args");
 
     dbg!(&ret_args);
 
-    let chain: String = format!("{}", ret_args.chain);
+    let db = store::store_from_args(db, ret_args);
 
-    db.address.entry(chain).or_default();
+    store::write_to_db(db, file);
 
-    dbg!(&db.address);
+    /*let chain: String = format!("{}", ret_args.chain);
 
-    println!("yo");
+    db.entry(chain).or_default();
+
+    dbg!(&db);
+
+    println!("yo");*/
 }
