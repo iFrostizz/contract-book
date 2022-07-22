@@ -1,11 +1,8 @@
 use std::str::FromStr;
 
 use clap::Parser;
-use ethers::abi;
-use ethers::abi::{Abi, AbiEncode, Address};
+use ethers::abi::{Abi, Address};
 use ethers::types::Chain;
-
-use ethereum_abi::Abi as BetterAbi;
 
 use eyre::{Error, Result};
 

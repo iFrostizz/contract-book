@@ -1,12 +1,11 @@
 [package]
-name = "contract-book"
+name = "cbook"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-kv = "0.23.1"
 eyre = "0.6.8"
 ethers = "0.14.0"
 clap = { version = "3.2.12", features = ["derive"] }
@@ -14,4 +13,3 @@ serde = "1.0.139"
 serde_json = "1.0.82"
 dirs-next = "2.0.0"
 ethereum_abi = "0.4.0"
-tokio = { version = "1.20.0", features = ["full"] }

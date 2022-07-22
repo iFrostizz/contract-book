@@ -4,7 +4,6 @@ mod db;
 
 use clap::Parser;
 use cmd::parser;
-// use contract::helper::ContractBook;
 use db::{config, store};
 
 fn main() {
@@ -15,15 +14,5 @@ fn main() {
 
     let db = store::store_from_args(&mut db, ret_args);
 
-    // dbg!(&db);
-
     store::write_to_db(db);
-
-    /*let chain: String = format!("{}", ret_args.chain);
-
-    db.entry(chain).or_default();
-
-    dbg!(&db);
-
-    println!("yo");*/
 }

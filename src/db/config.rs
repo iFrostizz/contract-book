@@ -2,8 +2,7 @@ use eyre::{ContextCompat, Result, WrapErr};
 use std::collections::HashMap;
 use std::fs;
 use std::fs::OpenOptions;
-use std::io::prelude::*;
-use std::io::{BufReader, ErrorKind, SeekFrom};
+use std::io::BufReader;
 use std::path::PathBuf;
 
 use crate::contract::helper::ContractBook;
@@ -11,10 +10,7 @@ use crate::contract::helper::ContractBook;
 pub fn init_db() -> ContractBook {
     let book_path = get_book_path().unwrap();
 
-    dbg!(&book_path);
-
-    //let mut file = fs::File::create(&book_path).expect("coudln't open db file");
-    let mut file = OpenOptions::new()
+    let file = OpenOptions::new()
         .create(true)
         .read(true)
         .write(true)
@@ -23,13 +19,7 @@ pub fn init_db() -> ContractBook {
 
     let buf_len = fs::metadata(&book_path).unwrap().len();
 
-    dbg!(buf_len);
-
     if buf_len == 0 {
-        dbg!("empty db");
-
-        // file.write(b"{}").unwrap(); // initialize json file for parsing
-
         return HashMap::new();
     }
 
