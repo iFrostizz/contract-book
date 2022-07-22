@@ -5,14 +5,7 @@ This crate is a global database that can be used to store common addresses and A
 ## Download
 
 ```console
-foo@bar:~$ git clone https://github.com/iFrostizz/contract-book.git
-foo@bar:~$ cd contract-book
-foo@bar:~$ cargo build --release
-```
-
-add ~/.../contract-book/target/release/cbook to your `$PATH`
-
-```console
+foo@bar:~$ cargo install --git https://github.com/iFrostizz/contract-book.git
 foo@bar:~$ cbook --help
 ```
 
