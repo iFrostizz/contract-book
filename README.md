@@ -15,7 +15,7 @@ db.json structure:
 
 # TODO
 
-- [ ] Finish the contract-book implementation
+- [x] Finish the contract-book implementation
 - [ ] Provide an API to find elements easily
 - [ ] Allow database migrations
 - [ ] Write tests (or not ;))
