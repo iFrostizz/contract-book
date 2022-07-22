@@ -19,10 +19,15 @@ db.json structure:
 
 ```json
 {
-  name: {
-    abi: Abi,
-    address: {
-      chain: Address
+  "name": {
+    "abi": [
+	{
+	    "constant": true,
+	    "inputs": []
+	}
+    ],
+    "address": {
+      "chain": "0x..."
     }
   }
 }
