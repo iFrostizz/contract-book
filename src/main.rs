@@ -8,7 +8,7 @@ use cmd::parser;
 use db::{config, store};
 
 fn main() {
-    let (mut db, file) = config::init_db();
+    let mut db = config::init_db();
 
     let args = parser::Args::parse();
     let ret_args = parser::parse_args(args).expect("failed to parse args");
@@ -17,7 +17,7 @@ fn main() {
 
     // dbg!(&db);
 
-    store::write_to_db(db, file);
+    store::write_to_db(db);
 
     /*let chain: String = format!("{}", ret_args.chain);
 

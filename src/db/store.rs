@@ -1,5 +1,6 @@
 use crate::{
     contract::helper::{ContractBook, CoreContract},
+    db::config,
     parser::RetArgs,
 };
 
@@ -59,8 +60,17 @@ pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> &mut ContractBoo
     db
 }
 
-pub fn write_to_db(db: &mut ContractBook, file: fs::File) {
+pub fn write_to_db(db: &mut ContractBook) {
     dbg!("gonna write", &db);
+
+    let book_path = config::get_book_path().unwrap();
+
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .open(&book_path)
+        .expect("coudln't open db file");
+
     serde_json::to_writer_pretty(file, &db).expect("could not write to db");
+
     dbg!("wrote to db");
 }

@@ -1,23 +1,23 @@
 use eyre::{ContextCompat, Result, WrapErr};
 use std::collections::HashMap;
 use std::fs;
+use std::fs::OpenOptions;
 use std::io::prelude::*;
 use std::io::{BufReader, ErrorKind, SeekFrom};
 use std::path::PathBuf;
 
 use crate::contract::helper::ContractBook;
 
-pub fn init_db() -> (ContractBook, fs::File) {
+pub fn init_db() -> ContractBook {
     let book_path = get_book_path().unwrap();
 
     dbg!(&book_path);
 
     //let mut file = fs::File::create(&book_path).expect("coudln't open db file");
-    let mut file = fs::OpenOptions::new()
+    let mut file = OpenOptions::new()
         .create(true)
         .read(true)
         .write(true)
-        .append(false)
         .open(&book_path)
         .expect("coudln't open db file");
 
@@ -30,17 +30,17 @@ pub fn init_db() -> (ContractBook, fs::File) {
 
         // file.write(b"{}").unwrap(); // initialize json file for parsing
 
-        return (HashMap::new(), file);
+        return HashMap::new();
     }
 
     let reader = BufReader::new(&file);
 
     let db = serde_json::from_reader(reader).unwrap();
 
-    (db, file)
+    db
 }
 
-fn get_db_path() -> Result<PathBuf> {
+pub fn get_db_path() -> Result<PathBuf> {
     let path = dirs_next::data_dir()
         .wrap_err("Failed to find data directory")?
         .join("cbook");
@@ -49,7 +49,7 @@ fn get_db_path() -> Result<PathBuf> {
     Ok(path)
 }
 
-fn get_book_path() -> Result<PathBuf> {
+pub fn get_book_path() -> Result<PathBuf> {
     let path = get_db_path().unwrap();
     let path = path.join("db.json");
 
