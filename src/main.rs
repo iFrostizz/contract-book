@@ -13,9 +13,9 @@ fn main() {
     let args = parser::Args::parse();
     let ret_args = parser::parse_args(args).expect("failed to parse args");
 
-    dbg!(&ret_args);
-
     let db = store::store_from_args(&mut db, ret_args);
+
+    // dbg!(&db);
 
     store::write_to_db(db, file);
 

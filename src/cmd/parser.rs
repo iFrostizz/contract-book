@@ -23,7 +23,7 @@ pub struct Args {
     #[clap(long, help = "chain name or id")]
     pub chain: Option<String>,
 
-    #[clap(long, help = "overwrite", default_value_t = false)]
+    #[clap(long, help = "overwrite")]
     pub force: bool,
 }
 

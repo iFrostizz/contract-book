@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct CoreContract {
-    pub abi: Abi,
+    pub abi: Option<Abi>,
     pub address: HashMap<u64, Address>,
 }
 

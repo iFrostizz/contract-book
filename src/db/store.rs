@@ -10,6 +10,8 @@ use std::fs;
 use ethers::abi::Abi;
 
 pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> &mut ContractBook {
+    dbg!(&args.force);
+
     let core_contract = match db.entry(args.name) {
         Entry::Vacant(entry) => {
             let address = args.chain.map_or_else(
@@ -18,17 +20,22 @@ pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> &mut ContractBoo
             );
 
             entry.insert(CoreContract {
-                abi: Abi::default(),
+                abi: args.abi,
                 address: address,
             });
 
             return db;
         }
-        Entry::Occupied(entry) => entry.into_mut(),
+        Entry::Occupied(entry) => {
+            dbg!("Already have dis name");
+            entry.into_mut()
+        }
     };
 
-    match args.abi {
-        Some(abi) if args.force => core_contract.abi = abi,
+    // dbg!(&core_contract);
+
+    match &core_contract.abi {
+        Some(abi) if args.force => core_contract.abi = args.abi,
         Some(abi) => panic!("ABI already present, force to overwrite"), // not forced
         _ => (),
     }
@@ -41,6 +48,8 @@ pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> &mut ContractBoo
             Entry::Occupied(mut entry) => {
                 if args.force {
                     entry.insert(args.address.unwrap());
+                } else {
+                    panic!("address already present, force to overwrite");
                 }
             }
         },
@@ -51,6 +60,7 @@ pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> &mut ContractBoo
 }
 
 pub fn write_to_db(db: &mut ContractBook, file: fs::File) {
+    dbg!("gonna write", &db);
     serde_json::to_writer_pretty(file, &db).expect("could not write to db");
     dbg!("wrote to db");
 }
