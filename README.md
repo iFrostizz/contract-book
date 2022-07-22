@@ -13,7 +13,7 @@ foo@bar:~$ cargo build --release
 add ~/.../contract-book/target/release/cbook to your `$PATH`
 
 ```console
-foo@bar:&$ cbook --help
+foo@bar:~$ cbook --help
 ```
 
 ## Usage
