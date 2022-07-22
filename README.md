@@ -6,6 +6,7 @@ This crate is a global database that can be used to store common addresses and A
 
 ```console
 foo@bar:~$ git clone https://github.com/iFrostizz/contract-book.git
+foo@bar:~$ cd contract-book
 foo@bar:~$ cargo build --release
 ```
 
