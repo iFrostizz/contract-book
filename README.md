@@ -38,6 +38,7 @@ db.json structure:
 ## TODO
 
 - [x] Finish the contract-book implementation
+- [ ] Write a foundry library that uses `ffi`
 - [ ] Provide an API to find elements easily
 - [ ] Allow database migrations
 - [ ] Write tests (or not ;))

@@ -3,6 +3,7 @@ mod contract;
 mod db;
 
 use clap::Parser;
+
 use cmd::parser;
 use db::{config, store};
 
@@ -10,9 +11,7 @@ fn main() {
     let mut db = config::init_db();
 
     let args = parser::Args::parse();
-    let ret_args = parser::parse_args(args).expect("failed to parse args");
 
-    let db = store::store_from_args(&mut db, ret_args);
-
-    store::write_to_db(db);
+    parser::process_args(&mut db, args)
+        .unwrap_or_else(|err| println!("\x1b[31mcbook err: {}\x1b[0m", err));
 }

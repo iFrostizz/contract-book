@@ -1,72 +1,53 @@
 use std::str::FromStr;
 
-use clap::Parser;
+use clap::{Parser, Subcommand};
 use ethers::abi::{Abi, Address};
 use ethers::types::Chain;
+use serde::Serialize;
+
+use crate::{
+    cmd::{get, store, utils},
+    contract::helper::ContractBook,
+};
 
 use eyre::{Error, Result};
 
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    Store(store::Store),
+    Get(get::Get),
+    Utils(utils::Utils),
+}
+
 #[derive(Parser, Debug)]
 pub struct Args {
-    #[clap(long, help = "contract name")]
-    pub name: String,
-
-    #[clap(long, help = "contract address")]
-    pub address: Option<Address>,
-
-    #[clap(long, help = "contract abi")]
-    pub abi: Option<String>,
-
-    #[clap(long, help = "chain name or id")]
-    pub chain: Option<String>,
-
-    #[clap(long, help = "overwrite")]
-    pub force: bool,
+    #[clap(subcommand)]
+    pub command: Commands,
 }
 
-#[derive(Debug)]
-pub struct RetArgs {
-    pub name: String,
-    pub chain: Option<u64>,
-    pub address: Option<Address>,
-    pub abi: Option<Abi>,
-    pub force: bool,
+pub fn process_args(db: &mut ContractBook, args: Args) -> Result<(), Error> {
+    return match args.command {
+        Commands::Store(store) => {
+            store::store_args(db, store)?;
+            Ok(())
+        }
+        Commands::Get(get) => {
+            get::get_args(db, get)?;
+            Ok(())
+        }
+        Commands::Utils(utils) => Ok(()),
+    };
 }
 
-pub fn parse_args(args: Args) -> Result<RetArgs, Error> {
-    let chain = if args.chain.is_some() {
-        let chain: String = args.chain.unwrap();
+pub fn parse_chain(chain: String) -> eyre::Result<u64> {
+    let chain: Chain = Chain::from_str(&chain)
+        .or_else(|_| Ok::<_, eyre::Report>(Chain::try_from(chain.parse::<u64>()?)?))?;
 
-        let chain: Chain = Chain::from_str(&chain)
-            .or_else(|_| Ok::<_, eyre::Report>(Chain::try_from(chain.parse::<u64>()?)?))?;
+    let chain: u64 = chain.into();
 
-        Some(chain.into())
-    } else {
-        None
-    };
+    Ok(chain)
+}
 
-    if args.address.is_none() {
-        if args.abi.is_none() {
-            panic!("Provide address or abi")
-        }
-    } else {
-        if chain.is_none() {
-            panic!("Should provide a chain with address")
-        }
-    }
-
-    let abi: Option<Abi> = match args.abi.is_some() {
-        true => Some(serde_json::from_str(&args.abi.unwrap()).unwrap()),
-        _ => None,
-    };
-
-    let ret = RetArgs {
-        name: args.name,
-        chain,
-        address: args.address,
-        abi,
-        force: args.force,
-    };
-
-    Ok(ret)
+pub fn print_db<T: Serialize>(db: T) {
+    println!("{}", serde_json::to_string_pretty(&db).unwrap());
 }
