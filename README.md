@@ -43,7 +43,8 @@ db.json structure:
 ## TODO
 
 - [x] Finish the contract-book implementation
-- [ ] Write a foundry library that uses `ffi`
-- [ ] Provide an API to find elements easily
+- [ ] Write a foundry library that uses `ffi` (in progress)
+- [ ] Provide an API to find elements easily (in progress see `get`)
+- [ ] Let store local instances of cbook for solidity testing 
 - [ ] Allow database migrations
 - [ ] Write tests (or not ;))
