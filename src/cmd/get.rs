@@ -3,7 +3,7 @@ use eyre::eyre;
 use std::collections::HashMap;
 
 use crate::{
-    cmd::parser::{parse_chain, print_db},
+    cmd::parser::{parse_chain, print_addr, print_db},
     contract::helper::ContractBook,
 };
 
@@ -44,7 +44,7 @@ pub fn get_args(db: &mut ContractBook, args: Get) -> eyre::Result<()> {
 
                     print_db(db_name);
                 } else if args.address {
-                    print_db(&db_chain);
+                    print_addr(*db_chain);
                 } else if args.abi {
                     print_db(&db_name.abi);
                 }

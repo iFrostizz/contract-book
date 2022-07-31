@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use clap::{Parser, Subcommand};
-use ethers::types::Chain;
+use ethers::types::{Address, Chain};
 use serde::Serialize;
 
 use crate::{
@@ -43,4 +43,8 @@ pub fn parse_chain(chain: String) -> eyre::Result<u64> {
 
 pub fn print_db<T: Serialize>(db: T) {
     println!("{}", serde_json::to_string_pretty(&db).unwrap());
+}
+
+pub fn print_addr(addr: Address) {
+    println!("{:?}", addr);
 }
