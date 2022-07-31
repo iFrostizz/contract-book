@@ -5,7 +5,7 @@ mod db;
 use clap::Parser;
 
 use cmd::parser;
-use db::{config, store};
+use db::config;
 
 fn main() {
     let mut db = config::init_db();

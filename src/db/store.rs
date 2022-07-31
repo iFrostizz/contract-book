@@ -1,19 +1,25 @@
-use crate::{
-    contract::helper::{ContractBook, CoreContract},
-    db::config,
-};
+use crate::{contract::helper::ContractBook, db::config::get_book_path};
 
-use serde_json;
-use std::collections::{hash_map::Entry, HashMap};
-use std::fs;
+use eyre::Result;
+use serde_json::to_writer_pretty;
 
-pub fn write_to_db(db: &mut ContractBook) {
-    let book_path = config::get_book_path().unwrap();
+use std::fs::{write, File, OpenOptions};
 
-    let file = fs::OpenOptions::new()
-        .write(true)
-        .open(&book_path)
-        .expect("coudln't open db file");
+fn get_file() -> Result<File> {
+    let book_path = get_book_path()?;
 
-    serde_json::to_writer_pretty(file, &db).expect("could not write to db");
+    Ok(OpenOptions::new().write(true).open(&book_path)?)
+}
+
+pub fn write_to_db(db: &mut ContractBook) -> Result<()> {
+    let file = get_file()?;
+    to_writer_pretty(file, &db)?;
+
+    Ok(())
+}
+
+pub fn wipe_db() -> Result<()> {
+    write(get_book_path()?, "")?;
+
+    Ok(())
 }

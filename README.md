@@ -35,6 +35,11 @@ db.json structure:
 }
 ```
 
+## Code style
+
+`cargo clippy`
+`cargo +nightl fmt`
+
 ## TODO
 
 - [x] Finish the contract-book implementation

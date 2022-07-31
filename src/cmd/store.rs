@@ -42,14 +42,14 @@ pub struct RetArgs {
 }
 
 pub fn store_args(db: &mut ContractBook, args: Store) -> Result<(), Error> {
-    let ret_args = parse_args(db, args)?;
+    let ret_args = parse_args(args)?;
     let db = store_from_args(db, ret_args)?;
-    write_to_db(db);
+    write_to_db(db)?;
 
     Ok(())
 }
 
-pub fn parse_args(db: &mut ContractBook, args: Store) -> Result<RetArgs, Error> {
+pub fn parse_args(args: Store) -> Result<RetArgs, Error> {
     let chain: Option<u64> = if args.chain.is_some() {
         let chain: String = args.chain.unwrap();
 
@@ -65,10 +65,8 @@ pub fn parse_args(db: &mut ContractBook, args: Store) -> Result<RetArgs, Error> 
         if args.abi.is_none() {
             eyre::bail!("Please provide address or abi")
         }
-    } else {
-        if chain.is_none() {
-            eyre::bail!("You should provide a chain with address")
-        }
+    } else if chain.is_none() {
+        eyre::bail!("You should provide a chain with address")
     }
 
     let abi: Option<Abi> = match args.abi.is_some() {
@@ -91,14 +89,13 @@ pub fn parse_args(db: &mut ContractBook, args: Store) -> Result<RetArgs, Error> 
 pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> Result<&mut ContractBook, Error> {
     let core_contract = match db.entry(args.name) {
         Entry::Vacant(entry) => {
-            let address = args.chain.map_or_else(
-                || HashMap::new(),
-                |chain| HashMap::from_iter([(chain, args.address.unwrap())]),
-            );
+            let address = args.chain.map_or_else(HashMap::new, |chain| {
+                HashMap::from_iter([(chain, args.address.unwrap())])
+            });
 
             entry.insert(CoreContract {
                 abi: args.abi,
-                address: address,
+                address,
             });
 
             return Ok(db);
@@ -112,8 +109,8 @@ pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> Result<&mut Cont
         _ => (),
     }
 
-    match args.address {
-        Some(_address) => match core_contract.address.entry(args.chain.unwrap()) {
+    if let Some(_address) = args.address {
+        match core_contract.address.entry(args.chain.unwrap()) {
             Entry::Vacant(entry) => {
                 entry.insert(args.address.unwrap());
             }
@@ -124,8 +121,7 @@ pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> Result<&mut Cont
                     eyre::bail!("address already present, force to overwrite");
                 }
             }
-        },
-        _ => (),
+        }
     }
 
     Ok(db)

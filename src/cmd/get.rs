@@ -1,11 +1,10 @@
 use clap::Parser;
-use ethers::types::Address;
-use eyre::{eyre, Error, Result};
+use eyre::eyre;
 use std::collections::HashMap;
 
 use crate::{
     cmd::parser::{parse_chain, print_db},
-    contract::helper::{ContractBook, CoreContract},
+    contract::helper::ContractBook,
 };
 
 #[derive(Parser, Debug)]
@@ -38,7 +37,7 @@ pub fn get_args(db: &mut ContractBook, args: Get) -> eyre::Result<()> {
                     .ok_or_else(|| eyre!("Chain not set for {name}"))?;
 
                 if (args.abi && args.address) || (!args.abi && !args.address) {
-                    let asked_addr = db_chain.clone();
+                    let asked_addr = *db_chain;
                     let mut local_addr = HashMap::new();
                     local_addr.insert(chain, asked_addr);
                     db_name.address = local_addr;

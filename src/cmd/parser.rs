@@ -1,7 +1,6 @@
 use std::str::FromStr;
 
 use clap::{Parser, Subcommand};
-use ethers::abi::{Abi, Address};
 use ethers::types::Chain;
 use serde::Serialize;
 
@@ -26,17 +25,11 @@ pub struct Args {
 }
 
 pub fn process_args(db: &mut ContractBook, args: Args) -> Result<(), Error> {
-    return match args.command {
-        Commands::Store(store) => {
-            store::store_args(db, store)?;
-            Ok(())
-        }
-        Commands::Get(get) => {
-            get::get_args(db, get)?;
-            Ok(())
-        }
-        Commands::Utils(utils) => Ok(()),
-    };
+    match args.command {
+        Commands::Store(store) => Ok(store::store_args(db, store)?),
+        Commands::Get(get) => Ok(get::get_args(db, get)?),
+        Commands::Utils(utils) => Ok(utils::utils_args(utils)?),
+    }
 }
 
 pub fn parse_chain(chain: String) -> eyre::Result<u64> {

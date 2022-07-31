@@ -20,14 +20,13 @@ pub fn init_db() -> ContractBook {
     let buf_len = fs::metadata(&book_path).unwrap().len();
 
     if buf_len == 0 {
+        println!("db is empty");
         return HashMap::new();
     }
 
     let reader = BufReader::new(&file);
 
-    let db = serde_json::from_reader(reader).unwrap();
-
-    db
+    serde_json::from_reader(reader).unwrap()
 }
 
 pub fn get_db_path() -> Result<PathBuf> {
