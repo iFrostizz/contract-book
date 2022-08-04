@@ -15,6 +15,8 @@ foo@bar:~$ cbook --help
 foo@bar:~$ cbook --name WETH9 --address 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 --abi '[{"constant":true,"inputs":[], ...}]' --chain mainnet
 ```
 
+I wrote a foundry library to retrieve data in tests: https://github.com/iFrostizz/sbook
+
 ## Info
 
 db.json structure:
