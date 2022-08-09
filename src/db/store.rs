@@ -1,8 +1,5 @@
 use crate::{contract::helper::ContractBook, db::config::get_book_path};
-
-use eyre::Result;
 use serde_json::to_writer_pretty;
-
 use std::fs::{write, File, OpenOptions};
 
 fn get_file() -> eyre::Result<File> {

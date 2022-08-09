@@ -1,15 +1,11 @@
 use std::str::FromStr;
-
 use clap::{Parser, Subcommand};
 use ethers::types::{Address, Chain};
 use serde::Serialize;
-
 use crate::{
     cmd::{get, store, utils},
     contract::helper::ContractBook,
 };
-
-use eyre::{Error, Result};
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {

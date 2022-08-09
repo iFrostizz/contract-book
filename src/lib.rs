@@ -1,6 +1,6 @@
-mod cmd;
-mod contract;
-mod db;
+pub mod cmd;
+pub mod contract;
+pub mod db;
 
 use crate::{cmd::parser::parse_chain, db::config::init_db};
 use ethers::types::Address;

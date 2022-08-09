@@ -1,6 +1,4 @@
 use clap::Parser;
-use eyre::Result;
-
 use crate::db::store::wipe_db;
 
 #[derive(Parser, Debug)]

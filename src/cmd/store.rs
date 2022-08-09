@@ -3,7 +3,6 @@ use ethers::{
     abi::Abi,
     types::{Address, Chain},
 };
-use eyre::{Error, Result};
 use std::{
     collections::{hash_map::Entry, HashMap},
     str::FromStr,

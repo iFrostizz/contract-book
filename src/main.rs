@@ -1,11 +1,7 @@
 use clap::Parser;
 
-mod cmd;
-mod contract;
-mod db;
-
-use cmd::parser::{process_args, Args};
-use db::config::init_db;
+use cbook::cmd::parser::{process_args, Args};
+use cbook::db::config::init_db;
 
 fn main() {
     let mut db = init_db();

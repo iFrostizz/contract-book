@@ -1,4 +1,4 @@
-use eyre::{ContextCompat, Result, WrapErr};
+use eyre::{ContextCompat, WrapErr};
 use std::collections::HashMap;
 use std::fs;
 use std::fs::OpenOptions;
