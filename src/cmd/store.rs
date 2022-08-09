@@ -41,7 +41,7 @@ pub struct RetArgs {
     pub force: bool,
 }
 
-pub fn store_args(db: &mut ContractBook, args: Store) -> Result<(), Error> {
+pub fn store_args(db: &mut ContractBook, args: Store) -> eyre::Result<()> {
     let ret_args = parse_args(args)?;
     let db = store_from_args(db, ret_args)?;
     write_to_db(db)?;
@@ -49,7 +49,7 @@ pub fn store_args(db: &mut ContractBook, args: Store) -> Result<(), Error> {
     Ok(())
 }
 
-pub fn parse_args(args: Store) -> Result<RetArgs, Error> {
+pub fn parse_args(args: Store) -> eyre::Result<RetArgs> {
     let chain: Option<u64> = if args.chain.is_some() {
         let chain: String = args.chain.unwrap();
 
@@ -86,7 +86,7 @@ pub fn parse_args(args: Store) -> Result<RetArgs, Error> {
 }
 
 /// Returns the whole db
-pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> Result<&mut ContractBook, Error> {
+pub fn store_from_args(db: &mut ContractBook, args: RetArgs) -> eyre::Result<&mut ContractBook> {
     let core_contract = match db.entry(args.name) {
         Entry::Vacant(entry) => {
             let address = args.chain.map_or_else(HashMap::new, |chain| {

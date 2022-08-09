@@ -9,7 +9,7 @@ pub struct Utils {
     pub reset: bool,
 }
 
-pub fn utils_args(args: Utils) -> Result<()> {
+pub fn utils_args(args: Utils) -> eyre::Result<()> {
     if args.reset {
         wipe_db()?;
     }

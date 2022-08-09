@@ -29,7 +29,7 @@ pub fn init_db() -> ContractBook {
     serde_json::from_reader(reader).unwrap()
 }
 
-pub fn get_db_path() -> Result<PathBuf> {
+pub fn get_db_path() -> eyre::Result<PathBuf> {
     let path = dirs_next::data_dir()
         .wrap_err("Failed to find data directory")?
         .join("cbook");
@@ -38,7 +38,7 @@ pub fn get_db_path() -> Result<PathBuf> {
     Ok(path)
 }
 
-pub fn get_book_path() -> Result<PathBuf> {
+pub fn get_book_path() -> eyre::Result<PathBuf> {
     let path = get_db_path().unwrap();
     let path = path.join("db.json");
 

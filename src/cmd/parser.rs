@@ -24,7 +24,7 @@ pub struct Args {
     pub command: Commands,
 }
 
-pub fn process_args(db: &mut ContractBook, args: Args) -> Result<(), Error> {
+pub fn process_args(db: &mut ContractBook, args: Args) -> eyre::Result<()> {
     match args.command {
         Commands::Store(store) => Ok(store::store_args(db, store)?),
         Commands::Get(get) => Ok(get::get_args(db, get)?),
